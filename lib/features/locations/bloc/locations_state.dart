@@ -14,13 +14,6 @@ class LocationFetchingErrorState extends LocationState {
   LocationFetchingErrorState(this.error);
 }
 
-// class LocationFetchingSuccessfulState extends LocationState {
-//   final List<LocationModel> locations;
-//   LocationFetchingSuccessfulState({
-//     required this.locations,
-//   });
-// }
-
 class LocationFetchingSuccessfulState extends LocationState {
   final List<Location> locations;
   LocationFetchingSuccessfulState({

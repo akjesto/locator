@@ -3,82 +3,7 @@ import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:tcs_locator/features/locations/bloc/locations_bloc.dart';
 import 'package:tcs_locator/features/locations/bloc/locations_event.dart';
 import 'package:tcs_locator/features/locations/bloc/locations_state.dart';
-
-
-
-// class LocationList extends StatelessWidget {
-//   const LocationList({super.key});
-
-//   @override
-//   Widget build(BuildContext context) {
-//     return Scaffold(
-//       appBar: AppBar(title: const Text('LocationList Screen')),
-//       body: const Center(child: Text('Welcome to the Home Screen!')),
-//     );
-//   }
-// }
-
-// class LocationListPage extends StatefulWidget {
-//   const LocationListPage({super.key});
-
-//   @override
-//   State<LocationListPage> createState() => _LocationListPageState();
-// }
-
-// class _LocationListPageState extends State<LocationListPage> {
-//   final LocationBloc locationBloc = LocationBloc();
-
-//   @override
-//   void initState() {
-//     locationBloc.add(LocationInitialFetchEvent());
-//     super.initState();
-//   }
-
-//   @override
-//   Widget build(BuildContext context) {
-//     return Scaffold(
-//         appBar: AppBar(
-//           title: const Text('Location Page'),
-//         ),
-//         body: BlocConsumer<LocationBloc, LocationState>(
-//           bloc: locationBloc,
-//           listenWhen: (previous, current) => current is LocationActionState,
-//           buildWhen: (previous, current) => current is! LocationActionState,
-//           listener: (context, state) {},
-//           builder: (context, state) {
-//             switch (state.runtimeType) {
-//               case LocationFetchingErrorState():
-//                 return const Center(
-//                   child: CircularProgressIndicator(),
-//                 );
-//               case LocationFetchingSuccessfulState():
-//                 final successState = state as LocationFetchingSuccessfulState;
-//                 return ListView.builder(
-//                   itemCount: successState.locations.length,
-//                   itemBuilder: (context, index) {
-//                     return Container(
-//                       color: Colors.grey.shade200,
-//                       padding: const EdgeInsets.all(16),
-//                       margin: const EdgeInsets.all(16),
-//                       child: const Column(
-//                         crossAxisAlignment: CrossAxisAlignment.start,
-//                         children: [
-//                           Text('hello'),
-//                           Text('hello')
-//                         ],
-//                       ),
-//                     );
-//                   },
-//                 );
-//               default:
-//                 return const SizedBox();
-//             }
-//           },
-//         ));
-//   }
-// }
-
-
+import 'package:tcs_locator/ui/location_detail_page.dart';
 
 class LocationListView extends StatelessWidget {
   const LocationListView({super.key});
@@ -92,7 +17,26 @@ class LocationListView extends StatelessWidget {
         title: Transform(transform: Matrix4.translationValues(20.0, 0.0, 0.0),
         child: const Text('TCS Locator',style: TextStyle(color: Colors.white)),
         ),
-        
+        actions: [
+        Image.asset('assets/images/logo.png'),
+  ],
+        bottom: PreferredSize(
+          preferredSize: const Size.fromHeight(56),
+          child: Padding(
+            padding: const EdgeInsets.all(8.0),
+            child: TextField(
+              decoration: InputDecoration(
+                labelText: 'Search Locations',
+                hintText: 'Enter location name...',
+                prefixIcon: const Icon(Icons.search),
+                border: OutlineInputBorder(
+                  borderRadius: BorderRadius.circular(8),
+                  borderSide: const BorderSide(color: Colors.grey),
+                ),
+              ),
+            ),
+            ),
+      ),
       ),
       body: BlocProvider(
         create: (context) => LocationBloc()..add(LocationInitialFetchEvent()),
@@ -113,6 +57,12 @@ class LocationListView extends StatelessWidget {
                     trailing: const Icon(Icons.arrow_forward_ios),
                     onTap: () {
                       // Handle item tap if needed
+                          Navigator.push(
+                        context,
+                        MaterialPageRoute(
+                          builder: (context) => LocationDetailPage(location: location)
+                        ),
+                      );
                     },
                   );
                 },
